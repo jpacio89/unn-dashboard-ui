@@ -5,12 +5,12 @@ export const navigationRoutes = {
   },
   routes: [
     {
-      name: 'dashboard',
-      displayName: 'menu.dashboard',
+      name: 'newmining',
+      displayName: 'menu.newMining',
       meta: {
         iconClass: 'vuestic-iconset-dashboard',
       },
-    },
+    }/*,
     {
       name: 'statistics',
       displayName: 'menu.statistics',
@@ -215,6 +215,6 @@ export const navigationRoutes = {
           displayName: '404 Pages',
         },
       ],
-    },
+    },*/
   ],
 }

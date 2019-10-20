@@ -86,6 +86,12 @@ export default new Router({
           default: true,
         },
         {
+          name: 'newmining',
+          path: 'newmining',
+          component: () => import('../components/unn/newmining/NewMining.vue'),
+          default: true,
+        },
+        {
           name: 'statistics',
           path: 'statistics',
           component: EmptyParentComponent,

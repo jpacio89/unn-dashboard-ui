@@ -313,7 +313,8 @@
     "spacing": "Spacing",
     "sliders": "Sliders",
     "popovers": "Popovers",
-    "chat": "Chat"
+    "chat": "Chat",
+    "newMining": "New Mining Session"
   },
   "messages": {
     "all": "See all messages",
