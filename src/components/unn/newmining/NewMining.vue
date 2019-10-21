@@ -1,18 +1,18 @@
 <template>
   <div class="dashboard">
-
-
-    <div class="row">
-      <div class="flex xs12">
-
-      </div>
-    </div>
     <div class="row row-equal">
       <div class="flex xs12 lg6">
-
+        <va-card title="Load OpenML Dataset">
+          <va-input
+            v-model="withDescription"
+            placeholder="Insert dataset ID" />
+        </va-card>
       </div>
       <div class="flex xs12 lg6">
-
+        <va-card title="Features">
+          1 <br/>
+          2
+        </va-card>
       </div>
     </div>
   </div>
