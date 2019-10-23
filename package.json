@@ -69,14 +69,14 @@
     "sass-loader": "^7.0.1",
     "sass-resources-loader": "^2.0.1",
     "vue-book": "0.1.0-alpha.17",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "axios": "^0.18.0"
   },
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
   },
-  "gitHooks": {
-  },
+  "gitHooks": {},
   "license": "MIT",
   "lint-staged": {
     "*.{js,vue}": [

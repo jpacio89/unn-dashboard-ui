@@ -4,9 +4,13 @@
       <div class="flex xs12 lg6">
         <va-card title="Load OpenML Dataset">
           <va-input
-            v-model="withDescription"
+            v-model="datasetId"
             placeholder="Insert dataset ID" />
+          <va-button color="success" @click="getDataset">
+            Load
+          </va-button>
         </va-card>
+
       </div>
       <div class="flex xs12 lg6">
         <va-list fit class="mb-2">
@@ -34,11 +38,18 @@
 <script>
 export default {
   name: 'newmining',
+  data() {
+    return {
+      datasetId: null,
+    }
+  },
   components: {
 
   },
-
   methods: {
+    getDataset() {
+      this.$api.loadDataset(this.datasetId);
+    },
     launchEpicmaxToast () {
       this.showToast(`Let's work together!`, {
         icon: 'fa-star-o',
