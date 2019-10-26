@@ -13,23 +13,27 @@
 
       </div>
       <div class="flex xs12 lg6">
-        <va-list fit class="mb-2">
-          <va-item v-for="n in 10">
-            <va-item-section side>
-              <va-checkbox v-model="appBanners" />
-            </va-item-section>
-            <va-item-section>
-              <va-item-label>
-                <h1 style="text-transform: capitalize;">feathers</h1>
-              </va-item-label>
+        <table class="va-table va-table--striped va-table--hoverable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Values</th>
+              <th>Action</th>
+            </tr>
+          </thead>
 
-              <va-item-label caption style="margin-top: 5px;">
-                <va-badge class="mb-2" color="dark" outline>true</va-badge>
-                <va-badge class="mb-2" color="dark" outline>false</va-badge>
-              </va-item-label>
-            </va-item-section>
-          </va-item>
-        </va-list>
+          <tbody>
+            <tr v-for="feature in Object.keys(units)">
+              <td>{{ feature.replace(/\"/g, "") }}</td>
+              <td>
+                <va-badge class="mb-2" color="dark" outline v-for="value in units[feature].values">{{ value }}</va-badge>
+              </td>
+              <td style="vertical-align: top;">
+                <va-button flat small color="gray" icon="fa fa-trash" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -41,6 +45,7 @@ export default {
   data() {
     return {
       datasetId: null,
+      units: {},
     }
   },
   components: {
@@ -48,7 +53,12 @@ export default {
   },
   methods: {
     getDataset() {
-      this.$api.loadDataset(this.datasetId);
+      this.$api.loadDataset(this.datasetId).then(() => {
+        debugger;
+        setTimeout(() => this.$api.fetchUnitsReport().then((result) => {
+          this.units = result.data.units;
+        }), 1000);
+      });
     },
     launchEpicmaxToast () {
       this.showToast(`Let's work together!`, {
