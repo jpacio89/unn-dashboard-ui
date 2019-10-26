@@ -16,20 +16,23 @@
         <table class="va-table va-table--striped va-table--hoverable">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Values</th>
+              <th>Feature</th>
+              <th>Possible Values</th>
               <th>Action</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr v-for="feature in Object.keys(units)">
+            <tr v-for="feature in features" v-bind:key="feature + '::' + componentKey" v-if="!isBlacklisted(feature)">
               <td>{{ feature.replace(/\"/g, "") }}</td>
               <td>
-                <va-badge class="mb-2" color="dark" outline v-for="value in units[feature].values">{{ value }}</va-badge>
+                <va-badge class="mb-2" color="dark" outline v-for="value in units[feature].values" v-bind:key="feature + '::' + value">
+                  {{ value }}
+                </va-badge>
               </td>
-              <td style="vertical-align: top;">
-                <va-button flat small color="gray" icon="fa fa-trash" />
+              <td style="vertical-align: top; width: 100px;">
+                <va-button flat small :color="getStarColor(feature)" icon="fa fa-star" @click="star(feature)" />
+                <va-button flat small color="gray" icon="fa fa-trash" @click="remove(feature)" />
               </td>
             </tr>
           </tbody>
@@ -44,19 +47,39 @@ export default {
   name: 'newmining',
   data() {
     return {
+      componentKey: 0,
       datasetId: null,
       units: {},
+      blacklist: {},
+      isblack: false,
+      features: [],
+      defaultClass: null
     }
   },
   components: {
 
   },
   methods: {
+    getStarColor (feature) {
+      return feature === this.defaultClass ? 'primary' : 'gray';
+    },
+    star (feature) {
+      this.defaultClass = feature;
+    },
+    isBlacklisted(feature) {
+      return this.blacklist && this.blacklist[feature] === true;
+    },
+    remove(feature) {
+      this.isblack = true;
+      this.blacklist[feature] = true;
+      this.componentKey++;
+    },
     getDataset() {
       this.$api.loadDataset(this.datasetId).then(() => {
-        debugger;
         setTimeout(() => this.$api.fetchUnitsReport().then((result) => {
           this.units = result.data.units;
+          this.features = result.data.features;
+          this.defaultClass = this.features[this.features.length - 1];
         }), 1000);
       });
     },
