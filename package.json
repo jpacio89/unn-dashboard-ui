@@ -70,7 +70,8 @@
     "sass-resources-loader": "^2.0.1",
     "vue-book": "0.1.0-alpha.17",
     "vue-template-compiler": "^2.6.10",
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "qs": "^6.5.2"
   },
   "engines": {
     "node": ">= 4.0.0",

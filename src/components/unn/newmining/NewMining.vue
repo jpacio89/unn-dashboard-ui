@@ -6,9 +6,8 @@
           <va-input
             v-model="datasetId"
             placeholder="Insert dataset ID" />
-          <va-button color="success" @click="getDataset">
-            Load
-          </va-button>
+          <va-button color="success" @click="getDataset">Load</va-button>
+          <va-button color="success" @click="mineDataset" v-if="isLoaded">Mine</va-button>
         </va-card>
 
       </div>
@@ -53,7 +52,8 @@ export default {
       blacklist: {},
       isblack: false,
       features: [],
-      defaultClass: null
+      defaultClass: null,
+      isLoaded: false,
     }
   },
   components: {
@@ -80,7 +80,14 @@ export default {
           this.units = result.data.units;
           this.features = result.data.features;
           this.defaultClass = this.features[this.features.length - 1];
+          this.isLoaded = true;
         }), 1000);
+      });
+    },
+    mineDataset() {
+      this.$api.mineDataset({
+        targetFeature: this.defaultClass,
+        featureBlacklist: Object.keys(this.blacklist)
       });
     },
     launchEpicmaxToast () {
