@@ -8,6 +8,7 @@
             placeholder="Insert dataset ID" />
           <va-button color="success" @click="getDataset">Load</va-button>
           <va-button color="success" @click="mineDataset" v-if="isLoaded">Mine</va-button>
+          <va-button color="success" @click="getReport">Report</va-button>
         </va-card>
 
       </div>
@@ -38,10 +39,20 @@
         </table>
       </div>
     </div>
+    <div class="row row-equal">
+      <ConfusionMatrix
+        v-for="matrixKey in Object.keys(miningReport.confusionMatrixes)"
+        v-bind:key="matrixKey"
+        :feature="matrixKey"
+        :matrix="miningReport.confusionMatrixes[matrixKey].hitMatrix"
+        :unknowns="miningReport.confusionMatrixes[matrixKey].outlier" />
+    </div>
   </div>
 </template>
 
 <script>
+import ConfusionMatrix from '@/unn/ConfusionMatrix.vue'
+
 export default {
   name: 'newmining',
   data() {
@@ -54,12 +65,20 @@ export default {
       features: [],
       defaultClass: null,
       isLoaded: false,
+      miningReport: {
+        confusionMatrixes: {}
+      }
     }
   },
   components: {
-
+    ConfusionMatrix
   },
   methods: {
+    getReport() {
+      this.$api.fetchMiningReport().then((result) => {
+        this.miningReport = result.data;
+      });
+    },
     getStarColor (feature) {
       return feature === this.defaultClass ? 'primary' : 'gray';
     },
