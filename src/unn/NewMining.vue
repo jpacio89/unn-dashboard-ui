@@ -9,34 +9,17 @@
           <va-button color="success" @click="getDataset">Load</va-button>
           <va-button color="success" @click="mineDataset" v-if="isLoaded">Mine</va-button>
           <va-button color="success" @click="getReport">Report</va-button>
+          <va-button color="success" @click="getReport">Simulate</va-button>
         </va-card>
 
       </div>
       <div class="flex xs12 lg6">
-        <table class="va-table va-table--striped va-table--hoverable">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Possible Values</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr v-for="feature in features" v-bind:key="feature + '::' + componentKey" v-if="!isBlacklisted(feature)">
-              <td>{{ feature.replace(/\"/g, "") }}</td>
-              <td>
-                <va-badge class="mb-2" color="dark" outline v-for="value in units[feature].values" v-bind:key="feature + '::' + value">
-                  {{ value }}
-                </va-badge>
-              </td>
-              <td style="vertical-align: top; width: 100px;">
-                <va-button flat small :color="getStarColor(feature)" icon="fa fa-star" @click="star(feature)" />
-                <va-button flat small color="gray" icon="fa fa-trash" @click="remove(feature)" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <FeatureList
+          :features="features"
+          :units="units"
+          :defaultClass="defaultClass"
+          v-on:classchange="handleClassChange"
+          v-on:blacklistchange="handleBlacklistChange" />
       </div>
     </div>
     <div class="row row-equal">
@@ -52,18 +35,17 @@
 
 <script>
 import ConfusionMatrix from '@/unn/ConfusionMatrix.vue'
+import FeatureList from '@/unn/FeatureList.vue'
 
 export default {
   name: 'newmining',
   data() {
     return {
-      componentKey: 0,
       datasetId: null,
       units: {},
-      blacklist: {},
-      isblack: false,
       features: [],
       defaultClass: null,
+      blacklist: {},
       isLoaded: false,
       miningReport: {
         confusionMatrixes: {}
@@ -71,27 +53,20 @@ export default {
     }
   },
   components: {
-    ConfusionMatrix
+    ConfusionMatrix,
+    FeatureList
   },
   methods: {
+    handleClassChange(newClass) {
+      this.defaultClass = newClass;
+    },
+    handleBlacklistChange(blacklist) {
+      this.blacklist = blacklist;
+    },
     getReport() {
       this.$api.fetchMiningReport().then((result) => {
         this.miningReport = result.data;
       });
-    },
-    getStarColor (feature) {
-      return feature === this.defaultClass ? 'primary' : 'gray';
-    },
-    star (feature) {
-      this.defaultClass = feature;
-    },
-    isBlacklisted(feature) {
-      return this.blacklist && this.blacklist[feature] === true;
-    },
-    remove(feature) {
-      this.isblack = true;
-      this.blacklist[feature] = true;
-      this.componentKey++;
     },
     getDataset() {
       this.$api.loadDataset(this.datasetId).then(() => {
@@ -104,6 +79,7 @@ export default {
       });
     },
     mineDataset() {
+      debugger;
       this.$api.mineDataset({
         targetFeature: this.defaultClass,
         featureBlacklist: Object.keys(this.blacklist)
@@ -125,7 +101,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .row-equal .flex {
     .va-card {
       height: 100%;
