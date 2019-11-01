@@ -30,12 +30,23 @@
         :matrix="miningReport.confusionMatrixes[matrixKey].hitMatrix"
         :unknowns="miningReport.confusionMatrixes[matrixKey].outlier" />
     </div>
+    <div class="row row-equal">
+      <div class="flex xs4 lg3">
+        <SimulatorPicker
+          :features="features"
+          :units="units"
+          :defaultClass="defaultClass"
+          v-on:classchange="handleClassChange"
+          v-on:blacklistchange="handleBlacklistChange" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import ConfusionMatrix from '@/unn/ConfusionMatrix.vue'
 import FeatureList from '@/unn/FeatureList.vue'
+import SimulatorPicker from '@/unn/SimulatorPicker.vue'
 
 export default {
   name: 'newmining',
@@ -54,7 +65,8 @@ export default {
   },
   components: {
     ConfusionMatrix,
-    FeatureList
+    FeatureList,
+    SimulatorPicker
   },
   methods: {
     handleClassChange(newClass) {
