@@ -92,6 +92,8 @@ export default {
       this.$api.simulate({
         blacklist: Object.keys(this.blacklist),
         seeds: this.pickedValues
+        }).then((result) => {
+          this.$emit('simulationdatachange', result.data);
       });
     }
   },

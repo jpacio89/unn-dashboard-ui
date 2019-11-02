@@ -36,8 +36,15 @@
           :units="units"
           :defaultClass="defaultClass"
           v-on:classchange="handleClassChange"
-          v-on:blacklistchange="handleBlacklistChange" />
+          v-on:blacklistchange="handleBlacklistChange"
+          v-on:simulationdatachange="handleSimulationDataChange" />
       </div>
+
+      <div class="flex xs8 lg6">
+        <va-chart :data="getChartData()" type="vertical-bar" v-bind:key="componentKeyChart" />
+      </div>
+
+
     </div>
   </div>
 </template>
@@ -46,11 +53,13 @@
 import ConfusionMatrix from '@/unn/ConfusionMatrix.vue'
 import FeatureList from '@/unn/FeatureList.vue'
 import SimulatorPicker from '@/unn/SimulatorPicker.vue'
+import { getVerticalBarChartData } from '../data/charts/VerticalBarChartData'
 
 export default {
   name: 'newmining',
   data() {
     return {
+      componentKeyChart: 0,
       datasetId: null,
       units: {},
       features: [],
@@ -59,7 +68,11 @@ export default {
       isLoaded: false,
       miningReport: {
         confusionMatrixes: {}
-      }
+      },
+      verticalBarChartData: getVerticalBarChartData(this.$themes),
+      simulationData: {
+        predictions: {}
+      },
     }
   },
   components: {
@@ -68,11 +81,33 @@ export default {
     SimulatorPicker
   },
   methods: {
+    handleSimulationDataChange(simulationData) {
+      this.simulationData = simulationData;
+      this.componentKeyChart++;
+    },
     handleClassChange(newClass) {
       this.defaultClass = newClass;
     },
     handleBlacklistChange(blacklist) {
       this.blacklist = blacklist;
+    },
+    getChartData() {
+      const labels = Object.keys(this.simulationData.predictions);
+      let values = [];
+      labels.forEach((label) => { 
+        values.push(this.simulationData.predictions[label]);
+      });
+      return {
+        'labels': labels,
+        'datasets': [
+          {
+            label: 'Prediction',
+            backgroundColor: this.$themes['primary'],
+            borderColor: 'transparent',
+            data: values
+          }
+        ],
+      };
     },
     getReport() {
       this.$api.fetchMiningReport().then((result) => {
@@ -90,7 +125,6 @@ export default {
       });
     },
     mineDataset() {
-      debugger;
       this.$api.mineDataset({
         targetFeature: this.defaultClass,
         featureBlacklist: Object.keys(this.blacklist)
