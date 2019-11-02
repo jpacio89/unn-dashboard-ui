@@ -9,7 +9,6 @@
           <va-button color="success" @click="getDataset">Load</va-button>
           <va-button color="success" @click="mineDataset" v-if="isLoaded">Mine</va-button>
           <va-button color="success" @click="getReport">Report</va-button>
-          <va-button color="success" @click="getReport">Simulate</va-button>
         </va-card>
 
       </div>

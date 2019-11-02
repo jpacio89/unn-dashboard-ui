@@ -10,11 +10,13 @@ ENDPOINTS = {
   'FETCH_UNITS': host + '/dataset/units/1',
   'MINE_DATASET': host + '/dataset/mine/1',
   'FETCH_MINING_REPORT': host + '/mine/report/1',
+  'SIMULATE': host + '/simulate/1'
 };
 
 export default {
     loadDataset: (datasetId) => axios.post(ENDPOINTS['LOAD_DATASET'] + '/' + datasetId),
     fetchUnitsReport: () => axios.get(ENDPOINTS['FETCH_UNITS']),
-    mineDataset: (args) => axios.post(ENDPOINTS['MINE_DATASET'], args, {headers: {'Content-Type':'application/json' } }),
+    mineDataset: (args) => axios.post(ENDPOINTS['MINE_DATASET'], args, { headers: { 'Content-Type':'application/json' } }),
     fetchMiningReport: () => axios.get(ENDPOINTS['FETCH_MINING_REPORT']),
+    simulate: (args) => axios.post(ENDPOINTS['SIMULATE'], args, { headers: { 'Content-Type':'application/json' } })
 }
