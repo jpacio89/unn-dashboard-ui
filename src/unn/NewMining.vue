@@ -31,10 +31,12 @@
     </div>
     <div class="row row-equal">
       <div class="flex xs4 lg3">
+        <va-button color="success" @click="randomizeRawDataset">Raw Dataset</va-button>
         <SimulatorPicker
           :features="features"
           :units="units"
           :defaultClass="defaultClass"
+          :randomSimulatorItem="randomSimulatorItem"
           v-on:classchange="handleClassChange"
           v-on:blacklistchange="handleBlacklistChange"
           v-on:simulationdatachange="handleSimulationDataChange" />
@@ -73,6 +75,8 @@ export default {
       simulationData: {
         predictions: {}
       },
+      rawDataset:[],
+      randomSimulatorItem: null
     }
   },
   components: {
@@ -81,6 +85,10 @@ export default {
     SimulatorPicker
   },
   methods: {
+    randomizeRawDataset() {
+      const guess = Math.round(Math.random() * this.rawDataset.length);
+      this.randomSimulatorItem = this.rawDataset[guess];
+    },
     handleSimulationDataChange(simulationData) {
       this.simulationData = simulationData;
       this.componentKeyChart++;
@@ -94,7 +102,7 @@ export default {
     getChartData() {
       const labels = Object.keys(this.simulationData.predictions);
       let values = [];
-      labels.forEach((label) => { 
+      labels.forEach((label) => {
         values.push(this.simulationData.predictions[label]);
       });
       return {
@@ -109,6 +117,11 @@ export default {
         ],
       };
     },
+    getRawDataset() {
+      this.$api.getRawDataset().then((result) => {
+        this.rawDataset = result.data;
+      });
+    },
     getReport() {
       this.$api.fetchMiningReport().then((result) => {
         this.miningReport = result.data;
@@ -121,6 +134,7 @@ export default {
           this.features = result.data.features;
           this.defaultClass = this.features[this.features.length - 1];
           this.isLoaded = true;
+          this.getRawDataset();
         }), 1000);
       });
     },

@@ -32,13 +32,25 @@
 <script>
 export default {
   name: 'SimulatorPicker',
-  props: ['features', 'units', 'defaultClass'],
+  props: ['features', 'units', 'defaultClass', 'randomSimulatorItem'],
   data() {
     return {
       componentKey: 0,
       blacklist: {},
       isblack: false,
       pickedValues: {}
+    }
+  },
+  watch: {
+    randomSimulatorItem: function() {
+      if (this.randomSimulatorItem) {
+        const features = Object.keys(this.randomSimulatorItem);
+        features.forEach((feature) => {
+            this.pickedValues[feature] = {};
+            this.pickedValues[feature][this.randomSimulatorItem[feature]] = true;
+        });
+        this.componentKey++;
+      }
     }
   },
   components: {
