@@ -13,6 +13,8 @@ import '../i18n/index'
 import YmapPlugin from 'vue-yandex-maps'
 import VueClipboard from 'vue-clipboard2'
 import VeeValidate from 'vee-validate'
+import VModal from 'vue-js-modal'
+import { Tabs, Tab } from 'vue-tabs-component';
 
 import '../metrics'
 import api from '@/api';
@@ -23,6 +25,10 @@ Vue.use(VeeValidate, { fieldsBagName: 'formFields' })
 Vue.use(VuesticPlugin)
 Vue.use(YmapPlugin)
 Vue.use(VueClipboard)
+Vue.use(VModal)
+
+Vue.component('tabs', Tabs);
+Vue.component('tab', Tab);
 
 Vue.use(ColorThemePlugin,
   {
