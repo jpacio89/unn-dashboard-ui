@@ -177,10 +177,25 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .v--modal {
   box-shadow: none;
   background-color: transparent;
+}
+
+.tabs-component-tabs {
+  display: flex;
+}
+
+.tabs-component-tab {
+  margin: 20px 10px;
+  a {
+      color: rgb(44, 130, 224);
+  }
+}
+
+.tabs-component-tab:first-child {
+  margin-left: 0;
 }
 </style>
 <style lang="scss" scoped>
