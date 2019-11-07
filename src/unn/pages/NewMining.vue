@@ -1,9 +1,7 @@
 <template>
   <div class="dashboard">
-    <tabs>
-        <tab name="Dataset Report">
-          <va-button color="success" @click="mineDataset" v-if="isLoaded">Mine</va-button>
-          <va-button color="success" @click="getReport">Report</va-button>
+    <tabs :options="{ useUrlFragment: false }">
+        <tab name="Dataset Descriptor" class="va-tab__content">
           <div class="row row-equal">
             <div class="flex xs12">
               <va-card title="Dataset Features">
@@ -16,6 +14,8 @@
               </va-card>
             </div>
           </div>
+          <va-button color="success" @click="mineDataset" v-if="isLoaded">Mine</va-button>
+          <va-button color="success" @click="getReport">Report</va-button>
         </tab>
         <tab name="Mining Report">
           <div class="row row-equal">
@@ -27,10 +27,9 @@
               :unknowns="miningReport.confusionMatrixes[matrixKey].outlier" />
           </div>
         </tab>
-        <tab name="Simulation Report">
+        <tab name="Simulation">
           <div class="row row-equal">
             <div class="flex xs4 lg3">
-              <va-button color="success" @click="randomizeRawDataset">Raw Dataset</va-button>
               <SimulatorPicker
                 :features="features"
                 :units="units"
@@ -39,6 +38,7 @@
                 v-on:classchange="handleClassChange"
                 v-on:blacklistchange="handleBlacklistChange"
                 v-on:simulationdatachange="handleSimulationDataChange" />
+              <va-button color="success" @click="randomizeRawDataset">Raw Dataset</va-button>
             </div>
 
             <div class="flex xs8 lg6">
@@ -47,7 +47,7 @@
           </div>
         </tab>
     </tabs>
-    <modal name="hello-world" :scrollable="false" :clickToClose="false">
+    <modal name="load-dataset-modal" :scrollable="false" :clickToClose="false">
       <va-card title="Load OpenML Dataset">
         <va-input
           v-model="datasetId"
@@ -62,7 +62,6 @@
 import ConfusionMatrix from '@/unn/components/ConfusionMatrix.vue'
 import FeatureList from '@/unn/components/FeatureList.vue'
 import SimulatorPicker from '@/unn/components/SimulatorPicker.vue'
-import { getVerticalBarChartData } from '../../data/charts/VerticalBarChartData'
 
 export default {
   name: 'newmining',
@@ -78,7 +77,6 @@ export default {
       miningReport: {
         confusionMatrixes: {}
       },
-      verticalBarChartData: getVerticalBarChartData(this.$themes),
       simulationData: {
         predictions: {}
       },
@@ -96,10 +94,10 @@ export default {
   },
   methods: {
     show () {
-      this.$modal.show('hello-world');
+      this.$modal.show('load-dataset-modal');
     },
     hide () {
-      this.$modal.hide('hello-world');
+      this.$modal.hide('load-dataset-modal');
     },
     randomizeRawDataset() {
       const guess = Math.round(Math.random() * this.rawDataset.length);
@@ -160,18 +158,6 @@ export default {
         targetFeature: this.defaultClass,
         featureBlacklist: Object.keys(this.blacklist)
       });
-    },
-    launchEpicmaxToast () {
-      this.showToast(`Let's work together!`, {
-        icon: 'fa-star-o',
-        position: 'top-right',
-        duration: Infinity,
-        action: {
-          text: 'Hire us',
-          href: 'http://epicmax.co/#/contact',
-          class: 'vuestic-toasted-link',
-        },
-      })
     },
   },
 }

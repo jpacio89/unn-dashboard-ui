@@ -38,7 +38,7 @@ export default {
   },
   data () {
     return {
-      minimized: false,
+      minimized: true,
       mobileWidth: 767,
     }
   },
