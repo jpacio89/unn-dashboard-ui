@@ -75,6 +75,19 @@ export default new Router({
       ],
     },
     {
+      name: 'Unn',
+      path: '/unn',
+      component: AppLayout,
+      children: [
+        {
+          name: 'unn-new-job',
+          path: 'job/new',
+          component: () => import('../unn/pages/NewMining.vue'),
+          default: true,
+        },
+      ]
+    },
+    {
       name: 'Admin',
       path: '/admin',
       component: AppLayout,
@@ -83,12 +96,6 @@ export default new Router({
           name: 'dashboard',
           path: 'dashboard',
           component: () => import('../components/dashboard/Dashboard.vue'),
-          default: true,
-        },
-        {
-          name: 'newmining',
-          path: 'newmining',
-          component: () => import('../unn/pages/NewMining.vue'),
           default: true,
         },
         {

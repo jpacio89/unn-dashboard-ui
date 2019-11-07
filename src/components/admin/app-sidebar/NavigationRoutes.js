@@ -5,7 +5,7 @@ export const navigationRoutes = {
   },
   routes: [
     {
-      name: 'newmining',
+      name: 'unn-new-job',
       displayName: 'menu.newMining',
       meta: {
         iconClass: 'vuestic-iconset-dashboard',
