@@ -88,7 +88,7 @@ export default new Router({
         {
           name: 'newmining',
           path: 'newmining',
-          component: () => import('../unn/NewMining.vue'),
+          component: () => import('../unn/pages/NewMining.vue'),
           default: true,
         },
         {

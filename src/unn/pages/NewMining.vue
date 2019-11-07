@@ -59,10 +59,10 @@
 </template>
 
 <script>
-import ConfusionMatrix from '@/unn/ConfusionMatrix.vue'
-import FeatureList from '@/unn/FeatureList.vue'
-import SimulatorPicker from '@/unn/SimulatorPicker.vue'
-import { getVerticalBarChartData } from '../data/charts/VerticalBarChartData'
+import ConfusionMatrix from '@/unn/components/ConfusionMatrix.vue'
+import FeatureList from '@/unn/components/FeatureList.vue'
+import SimulatorPicker from '@/unn/components/SimulatorPicker.vue'
+import { getVerticalBarChartData } from '../../data/charts/VerticalBarChartData'
 
 export default {
   name: 'newmining',
