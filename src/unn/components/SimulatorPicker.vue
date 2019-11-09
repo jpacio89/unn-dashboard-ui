@@ -112,5 +112,15 @@ export default {
 }
 </script>
 
+<style>
+.simulator-picker .va-card {
+    height: auto !important;
+}
+
+.simulator-picker .va-card__body {
+  height: 650px;
+  overflow-y: scroll;
+}
+</style>
 <style lang="scss" scoped>
 </style>

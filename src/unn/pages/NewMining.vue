@@ -41,20 +41,24 @@
         </tab>
         <tab name="Simulation">
           <div class="row row-equal">
-            <div class="flex xs4 lg3">
-              <SimulatorPicker
-                :features="features"
-                :units="units"
-                :defaultClass="defaultClass"
-                :randomSimulatorItem="randomSimulatorItem"
-                v-on:classchange="handleClassChange"
-                v-on:blacklistchange="handleBlacklistChange"
-                v-on:simulationdatachange="handleSimulationDataChange" />
+            <div class="flex xs4 lg3 simulator-picker">
+              <va-card title="">
+                <SimulatorPicker
+                  :features="features"
+                  :units="units"
+                  :defaultClass="defaultClass"
+                  :randomSimulatorItem="randomSimulatorItem"
+                  v-on:classchange="handleClassChange"
+                  v-on:blacklistchange="handleBlacklistChange"
+                  v-on:simulationdatachange="handleSimulationDataChange" />
+              </va-card>
               <va-button color="success" @click="randomizeRawDataset">Raw Dataset</va-button>
             </div>
 
-            <div class="flex xs8 lg6">
-              <va-chart :data="getChartData()" type="vertical-bar" v-bind:key="componentKeyChart" />
+            <div class="xs6">
+              <va-card title="">
+                <va-chart :data="getChartData()" type="vertical-bar" v-bind:key="componentKeyChart" />
+              </va-card>
             </div>
           </div>
         </tab>
