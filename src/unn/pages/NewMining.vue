@@ -41,7 +41,7 @@
         </tab>
         <tab name="Simulation">
           <div class="row row-equal">
-            <div class="flex xs4 lg3 simulator-picker">
+            <div class="flex xs6 simulator-picker">
               <va-card title="">
                 <SimulatorPicker
                   :features="features"
@@ -55,7 +55,7 @@
               <va-button color="success" @click="randomizeRawDataset">Raw Dataset</va-button>
             </div>
 
-            <div class="xs6">
+            <div class="flex xs6">
               <va-card title="">
                 <va-chart :data="getChartData()" type="vertical-bar" v-bind:key="componentKeyChart" />
               </va-card>
