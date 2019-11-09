@@ -61,6 +61,12 @@ export default {
 }
 </script>
 
+<style lang="scss">
+.feature-list .va-card__body {
+  height: 650px;
+  overflow-y: scroll;
+}
+</style>
 <style lang="scss" scoped>
 table {
   width: 100%;

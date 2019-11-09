@@ -2,30 +2,42 @@
   <div class="dashboard">
     <tabs :options="{ useUrlFragment: false }">
         <tab name="Dataset Descriptor" class="va-tab__content">
-          <div class="row row-equal">
-            <div class="flex xs12">
-              <va-card title="Dataset Features">
-                <FeatureList
-                  :features="features"
-                  :units="units"
-                  :defaultClass="defaultClass"
-                  v-on:classchange="handleClassChange"
-                  v-on:blacklistchange="handleBlacklistChange" />
-              </va-card>
+          <div style="display: block; width: 100%;">
+            <div class="row row-equal">
+              <div class="flex xs12 feature-list">
+                <va-card title="Dataset Features">
+                  <FeatureList
+                    :features="features"
+                    :units="units"
+                    :defaultClass="defaultClass"
+                    v-on:classchange="handleClassChange"
+                    v-on:blacklistchange="handleBlacklistChange" />
+                </va-card>
+              </div>
+            </div>
+            <div>
+              <va-button color="success" @click="mineDataset" v-if="isLoaded">Mine</va-button>
             </div>
           </div>
-          <va-button color="success" @click="mineDataset" v-if="isLoaded">Mine</va-button>
-          <va-button color="success" @click="getReport">Report</va-button>
         </tab>
         <tab name="Mining Report">
-          <div class="row row-equal">
-            <ConfusionMatrix
-              v-for="matrixKey in Object.keys(miningReport.confusionMatrixes)"
-              v-bind:key="matrixKey"
-              :feature="matrixKey"
-              :matrix="miningReport.confusionMatrixes[matrixKey].hitMatrix"
-              :unknowns="miningReport.confusionMatrixes[matrixKey].outlier" />
-          </div>
+          <api-request
+            :resource="load()"
+            :sync="$route.params.page"
+            v-model="miningReport"
+            effect="fadeIn"
+            spinner="PulseLoader"
+            spinner-color="white"
+            :spinner-scale="2">
+            <div class="row row-equal">
+              <ConfusionMatrix
+                v-for="matrixKey in Object.keys(miningReport.data.confusionMatrixes)"
+                v-bind:key="matrixKey"
+                :feature="matrixKey"
+                :matrix="miningReport.data.confusionMatrixes[matrixKey].hitMatrix"
+                :unknowns="miningReport.data.confusionMatrixes[matrixKey].outlier" />
+            </div>
+          </api-request>
         </tab>
         <tab name="Simulation">
           <div class="row row-equal">
@@ -75,7 +87,9 @@ export default {
       blacklist: {},
       isLoaded: false,
       miningReport: {
-        confusionMatrixes: {}
+        data: {
+          confusionMatrixes: {}
+        }
       },
       simulationData: {
         predictions: {}
@@ -93,6 +107,9 @@ export default {
     this.show();
   },
   methods: {
+    load() {
+      return () => this.$api.fetchMiningReport();
+    },
     show () {
       this.$modal.show('load-dataset-modal');
     },
@@ -134,11 +151,6 @@ export default {
     getRawDataset() {
       this.$api.getRawDataset().then((result) => {
         this.rawDataset = result.data;
-      });
-    },
-    getReport() {
-      this.$api.fetchMiningReport().then((result) => {
-        this.miningReport = result.data;
       });
     },
     getDataset() {

@@ -14,6 +14,7 @@ import YmapPlugin from 'vue-yandex-maps'
 import VueClipboard from 'vue-clipboard2'
 import VeeValidate from 'vee-validate'
 import VModal from 'vue-js-modal'
+import VueApiRequest from 'vue-api-request'
 import { Tabs, Tab } from 'vue-tabs-component';
 
 import '../metrics'
@@ -22,6 +23,7 @@ import api from '@/api';
 // NOTE: workaround for VeeValidate + vuetable-2
 Vue.use(VeeValidate, { fieldsBagName: 'formFields' })
 
+Vue.use(VueApiRequest)
 Vue.use(VuesticPlugin)
 Vue.use(YmapPlugin)
 Vue.use(VueClipboard)
