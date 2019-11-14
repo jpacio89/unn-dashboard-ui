@@ -32,6 +32,7 @@
             <div class="row row-equal">
               <ConfusionMatrix
                 v-for="matrixKey in Object.keys(miningReport.data.confusionMatrixes)"
+                v-if="miningReport.data.confusionMatrixes[matrixKey]"
                 v-bind:key="matrixKey"
                 :feature="matrixKey"
                 :matrix="miningReport.data.confusionMatrixes[matrixKey].hitMatrix"
