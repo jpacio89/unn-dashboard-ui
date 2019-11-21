@@ -17,6 +17,7 @@
           </va-badge>
         </td>
         <td style="vertical-align: top; width: 100px;">
+          <va-button v-if="units[feature].histogram" flat small color="gray" icon="fa fa-search" @click="openHistogram(feature)" />
           <va-button flat small :color="getStarColor(feature)" icon="fa fa-star" @click="star(feature)" />
           <va-button flat small color="gray" icon="fa fa-trash" @click="remove(feature)" />
         </td>
@@ -57,6 +58,11 @@ export default {
       this.componentKey++;
       this.$emit('blacklistchange', this.blacklist);
     },
+    openHistogram(feature) {
+        this.$modal.show('feature-histogram-modal', {
+            histogram: this.units[feature].histogram,
+        });
+    }
   },
 }
 </script>

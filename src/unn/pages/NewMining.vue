@@ -72,6 +72,7 @@
         <va-button color="success" @click="getDataset">Load</va-button>
       </va-card>
     </modal>
+    <FeatureHistogramModal />
   </div>
 </template>
 
@@ -79,6 +80,7 @@
 import ConfusionMatrix from '@/unn/components/ConfusionMatrix.vue'
 import FeatureList from '@/unn/components/FeatureList.vue'
 import SimulatorPicker from '@/unn/components/SimulatorPicker.vue'
+import FeatureHistogramModal from '@/unn/components/FeatureHistogramModal.vue'
 
 export default {
   name: 'newmining',
@@ -106,7 +108,8 @@ export default {
   components: {
     ConfusionMatrix,
     FeatureList,
-    SimulatorPicker
+    SimulatorPicker,
+    FeatureHistogramModal
   },
   mounted() {
     this.show();
