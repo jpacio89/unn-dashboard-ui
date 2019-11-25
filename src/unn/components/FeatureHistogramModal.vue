@@ -30,6 +30,7 @@ export default {
   },
   methods: {
     plotHistogram() {
+        this.$emit('groupcountchange', this.feature, this.groupCount);
         this.$api.getFeatureHistogram(this.groupCount, this.feature).then(() => {
             setTimeout(() => this.$api.fetchUnitsReport().then((result) => {
                 this.histogram = result.data.units[this.feature].histogram.occurences;

@@ -72,7 +72,7 @@
         <va-button color="success" @click="getDataset">Load</va-button>
       </va-card>
     </modal>
-    <FeatureHistogramModal />
+    <FeatureHistogramModal v-on:groupcountchange="handleGroupCountChange" />
   </div>
 </template>
 
@@ -91,6 +91,7 @@ export default {
       units: {},
       features: [],
       defaultClass: null,
+      groupCounts: {},
       blacklist: {},
       isLoaded: false,
       miningReport: {
@@ -138,6 +139,9 @@ export default {
     handleBlacklistChange(blacklist) {
       this.blacklist = blacklist;
     },
+    handleGroupCountChange(feature, groupCount) {
+      this.groupCounts[feature] = groupCount;
+    },
     getChartData() {
       const labels = Object.keys(this.simulationData.predictions);
       let values = [];
@@ -176,7 +180,8 @@ export default {
     mineDataset() {
       this.$api.mineDataset({
         targetFeature: this.defaultClass,
-        featureBlacklist: Object.keys(this.blacklist)
+        featureBlacklist: Object.keys(this.blacklist),
+        groupCount: this.groupCounts,
       });
     },
   },
