@@ -61,6 +61,7 @@ export default {
     openHistogram(feature) {
         this.$modal.show('feature-histogram-modal', {
             histogram: this.units[feature].histogram,
+            feature: feature,
         });
     }
   },
