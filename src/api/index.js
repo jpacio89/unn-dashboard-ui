@@ -13,6 +13,7 @@ ENDPOINTS = {
   'SIMULATE': host + '/simulate/1',
   'RAW_DATASET': host + '/dataset/raw/1',
   'FEATURE_HISTOGRAM': host + '/feature/histogram/1',
+  'MINING_STATUS': host + '/mine/status/1',
 }
 
 export default {
@@ -23,4 +24,5 @@ export default {
   simulate: (args) => axios.post(ENDPOINTS['SIMULATE'], args, { headers: { 'Content-Type': 'application/json' } }),
   getRawDataset: () => axios.get(ENDPOINTS['RAW_DATASET']),
   getFeatureHistogram: (groupCount, feature) => axios.get(`${ENDPOINTS['FEATURE_HISTOGRAM']}?groupCount=${groupCount}&feature=${feature}`),
+  getMiningStatus: () => axios.get(ENDPOINTS['MINING_STATUS']),
 }

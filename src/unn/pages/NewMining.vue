@@ -73,14 +73,16 @@
       </va-card>
     </modal>
     <FeatureHistogramModal v-on:groupcountchange="handleGroupCountChange" />
+    <MiningStatusModal />
   </div>
 </template>
 
 <script>
-import ConfusionMatrix from '@/unn/components/ConfusionMatrix.vue'
-import FeatureList from '@/unn/components/FeatureList.vue'
-import SimulatorPicker from '@/unn/components/SimulatorPicker.vue'
-import FeatureHistogramModal from '@/unn/components/FeatureHistogramModal.vue'
+import ConfusionMatrix from '@/unn/components/ConfusionMatrix.vue';
+import FeatureList from '@/unn/components/FeatureList.vue';
+import SimulatorPicker from '@/unn/components/SimulatorPicker.vue';
+import FeatureHistogramModal from '@/unn/components/FeatureHistogramModal.vue';
+import MiningStatusModal from '@/unn/components/MiningStatusModal.vue';
 
 export default {
   name: 'newmining',
@@ -110,7 +112,8 @@ export default {
     ConfusionMatrix,
     FeatureList,
     SimulatorPicker,
-    FeatureHistogramModal
+    FeatureHistogramModal,
+    MiningStatusModal
   },
   mounted() {
     this.show();
@@ -178,6 +181,7 @@ export default {
       });
     },
     mineDataset() {
+      this.$modal.show('mining-status-modal');
       this.$api.mineDataset({
         targetFeature: this.defaultClass,
         featureBlacklist: Object.keys(this.blacklist),
