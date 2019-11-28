@@ -4,22 +4,40 @@
         :scrollable="true"
         :clickToClose="false"
         @before-open="beforeOpen"
+        @before-close="beforeClose"
         :width="800"
         :height="600">
         <div class="container">
-            <h1>Mining Status</h1>
-            <div v-for="feature in Object.keys(status)">
-                <div>
-                    <span>{{ feature }}:&nbsp;</span>
-                    <span>{{ status[feature].statusLabel }}</span>
-                    <span>,&nbsp;{{ status[feature].artifactCount }} artifacts.</span>
-                    <va-progress-bar
-                        v-if="status[feature].statusLabel === 'CACHING'"
-                        :value="status[feature].progressPercentage">
-                        {{ status[feature].progressPercentage }}%
-                    </va-progress-bar>
+            <va-card title="Mining Status" class="mb-2">
+                <table class="va-table va-table--striped va-table--hoverable">
+                  <thead>
+                    <tr>
+                      <th>Feature</th>
+                      <th>Status</th>
+                      <th>Info</th>
+                      <th>Progress</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr v-for="feature in Object.keys(status)" v-bind:key="feature">
+                      <td>{{ feature }}</td>
+                      <td>{{ status[feature].statusLabel }}</td>
+                      <td>{{ status[feature].artifactCount }} artifacts</td>
+                      <td>
+                          <va-progress-bar
+                              v-if="status[feature].statusLabel !== 'IDLE'"
+                              :value="status[feature].progressPercentage">
+                              {{ status[feature].progressPercentage.toFixed(2) }}%
+                          </va-progress-bar>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="controls">
+                    <va-button color="success" @click="close" v-if="isDone()">Check Results</va-button>
                 </div>
-            </div>
+            </va-card>
         </div>
     </modal>
 </template>
@@ -30,7 +48,8 @@ export default {
   props: [],
   data() {
     return {
-        status: {}
+        status: {},
+        timerHandler: null,
     }
   },
   components: {
@@ -41,22 +60,45 @@ export default {
         this.$api.getMiningStatus().then((statusResponse) => {
             this.status = statusResponse.data;
         }).finally(() => {
-            setTimeout(this.checkStatus, 1000);
+            if (this.isDone()) {
+                return;
+            }
+            this.timerHandler = setTimeout(this.checkStatus, 50);
         })
     },
     beforeOpen(event) {
         this.checkStatus();
     },
+    beforeClose() {
+        this.timerHandler && clearTimeout(this.timerHandler);
+    },
+    close() {
+        this.timerHandler && clearTimeout(this.timerHandler);
+        this.$modal.hide('mining-status-modal');
+    },
+    isDone() {
+        return Object.keys(this.status)
+                .filter(feature => this.status[feature].statusLabel !== 'DONE')
+                .length === 0 && Object.keys(this.status).length > 0;
+    }
   },
 }
 </script>
 
 <style lang="scss" scoped>
 .container {
-    padding: 40px;
     box-sizing: border-box;
-    background-color: white;
     width: 100%;
     height: 100%;
+
+    table {
+        width: 100%;
+        height: 100%;
+    }
+
+    .controls {
+        padding: 30px;
+        text-align: center;
+    }
 }
 </style>

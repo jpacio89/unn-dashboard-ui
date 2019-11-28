@@ -181,12 +181,13 @@ export default {
       });
     },
     mineDataset() {
-      this.$modal.show('mining-status-modal');
       this.$api.mineDataset({
         targetFeature: this.defaultClass,
         featureBlacklist: Object.keys(this.blacklist),
         groupCount: this.groupCounts,
-      });
+    }).finally(() => {
+        this.$modal.show('mining-status-modal');
+    })
     },
   },
 }
