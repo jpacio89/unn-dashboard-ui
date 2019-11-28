@@ -36,7 +36,7 @@
                 v-bind:key="matrixKey"
                 :feature="matrixKey"
                 :matrix="miningReport.data.confusionMatrixes[matrixKey].hitMatrix"
-                :unknowns="miningReport.data.confusionMatrixes[matrixKey].outlier" />
+                :unknowns="miningReport.data.confusionMatrixes[matrixKey].unknownCount" />
             </div>
           </api-request>
         </tab>
