@@ -71,6 +71,7 @@ export default {
     },
     beforeClose() {
         this.timerHandler && clearTimeout(this.timerHandler);
+        this.$emit('miningdone');
     },
     close() {
         this.timerHandler && clearTimeout(this.timerHandler);

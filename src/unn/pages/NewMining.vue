@@ -23,7 +23,7 @@
         <tab name="Mining Report">
           <api-request
             :resource="load()"
-            :sync="$route.params.page"
+            :sync="miningCounter"
             v-model="miningReport"
             effect="fadeIn"
             spinner="PulseLoader"
@@ -72,8 +72,10 @@
         <va-button color="success" @click="getDataset">Load</va-button>
       </va-card>
     </modal>
-    <FeatureHistogramModal v-on:groupcountchange="handleGroupCountChange" />
-    <MiningStatusModal />
+    <FeatureHistogramModal
+        v-on:groupcountchange="handleGroupCountChange" />
+    <MiningStatusModal
+        v-on:miningdone="handleMiningDone" />
   </div>
 </template>
 
@@ -105,7 +107,8 @@ export default {
         predictions: {}
       },
       rawDataset:[],
-      randomSimulatorItem: null
+      randomSimulatorItem: null,
+      miningCounter: 0,
     }
   },
   components: {
@@ -144,6 +147,9 @@ export default {
     },
     handleGroupCountChange(feature, groupCount) {
       this.groupCounts[feature] = groupCount;
+    },
+    handleMiningDone() {
+      this.miningCounter++;
     },
     getChartData() {
       const labels = Object.keys(this.simulationData.predictions);
