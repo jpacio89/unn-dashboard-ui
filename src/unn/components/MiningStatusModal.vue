@@ -86,6 +86,11 @@ export default {
 }
 </script>
 
+<style>
+.v--modal-box.v--modal {
+    overflow-y: scroll;
+}
+</style>
 <style lang="scss" scoped>
 .container {
     box-sizing: border-box;

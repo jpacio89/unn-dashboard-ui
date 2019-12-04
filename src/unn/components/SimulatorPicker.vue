@@ -13,9 +13,18 @@
         <tr v-for="feature in features" v-bind:key="feature + '::' + componentKey" v-if="!isBlacklisted(feature)">
           <td>{{ feature.replace(/\"/g, "") }}</td>
           <td>
-              <va-badge class="mb-2" color="dark" :outline="!!((pickedValues[feature] || {})[value])" v-for="value in units[feature].values" v-bind:key="feature + '::' + value">
+              <va-badge
+                class="mb-2"
+                color="dark"
+                :outline="!!((pickedValues[feature] || {})[value])"
+                v-for="value in units[feature].values"
+                v-bind:key="feature + '::' + value">
                 <span @click="toggleValue(feature, value)">{{ value }}</span>
               </va-badge>
+              <!--  && (!pickedValues[feature] || pickedValues[feature].length <= 1) -->
+              <span v-if="randomSimulatorItem">
+                  {{ randomSimulatorItem[feature] }}
+              </span>
           </td>
           <td style="vertical-align: top; width: 100px;">
             <va-button flat small color="gray" icon="fa fa-star" @click="star(feature)" />
