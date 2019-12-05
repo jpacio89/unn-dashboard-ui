@@ -22,8 +22,10 @@
                 <span @click="toggleValue(feature, value)">{{ value }}</span>
               </va-badge>
               <!--  && (!pickedValues[feature] || pickedValues[feature].length <= 1) -->
-              <span v-if="randomSimulatorItem">
+              <span v-if="randomSimulatorItem && getOuterRange(feature, randomSimulatorItem[feature]) !== 'N/A'">
                   {{ randomSimulatorItem[feature] }}
+                  &nbsp;
+                  {{ getOuterRange(feature, randomSimulatorItem[feature]) }}
               </span>
           </td>
           <td style="vertical-align: top; width: 100px;">
@@ -41,7 +43,7 @@
 <script>
 export default {
   name: 'SimulatorPicker',
-  props: ['features', 'units', 'defaultClass', 'randomSimulatorItem'],
+  props: ['features', 'units', 'defaultClass', 'randomSimulatorItem', 'miningUnits'],
   data() {
     return {
       componentKey: 0,
@@ -66,6 +68,35 @@ export default {
 
   },
   methods: {
+    getOuterRange(feature, outerValue) {
+        const outerPossibleValues = Object.keys(this.miningUnits);
+        const mapper = this.miningUnits[outerPossibleValues[0]].units[feature];
+        if (!mapper || !mapper.mapperBounds) {
+            return "N/A";
+        }
+        let index = 0;
+        mapper.mapperBounds.forEach((bound) => {
+            if (outerValue < bound.first_) {
+    			return;
+    		}
+    		index++;
+    		if (outerValue < bound.second_) {
+    			return;
+    		}
+        });
+
+        /*const range = 40 + 1;
+		const step = Math.max(1, range / (mapper.groupCount + 2));
+		const innerVal = Math.floor(-20 + step * index);*/
+        if (index === 0) {
+            return `< ${mapper.mapperBounds[0].first_}`;
+        } else if (index === mapper.mapperBounds.length) {
+            return `>= ${mapper.mapperBounds[mapper.mapperBounds.length - 1].first_}`;
+        }
+        const bound = mapper.mapperBounds[index-1];
+        return `[${bound.first_}, ${bound.second_}]`;
+        //return innerVal;
+    },
     toggleValue(feature, value, noUiRefresh) {
       if (!this.pickedValues[feature] || !this.pickedValues[feature][value]) {
         if (!this.pickedValues[feature]) {

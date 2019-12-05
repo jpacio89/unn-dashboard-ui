@@ -49,6 +49,7 @@
                   :units="units"
                   :defaultClass="defaultClass"
                   :randomSimulatorItem="randomSimulatorItem"
+                  :miningUnits="miningUnits"
                   v-on:classchange="handleClassChange"
                   v-on:blacklistchange="handleBlacklistChange"
                   v-on:simulationdatachange="handleSimulationDataChange" />
@@ -109,6 +110,7 @@ export default {
       rawDataset:[],
       randomSimulatorItem: null,
       miningCounter: 0,
+      miningUnits: {},
     }
   },
   components: {
@@ -119,6 +121,9 @@ export default {
     MiningStatusModal
   },
   mounted() {
+    this.$api.getMiningUnits().then((result) => {
+      this.miningUnits = result.data;
+    });
     this.show();
   },
   methods: {
@@ -149,16 +154,24 @@ export default {
       this.groupCounts[feature] = groupCount;
     },
     handleMiningDone() {
+      this.$api.getMiningUnits().then((result) => {
+          this.miningUnits = result.data;
+      });
       this.miningCounter++;
     },
     getChartData() {
       const labels = Object.keys(this.simulationData.predictions);
+      labels.sort((a, b) => a - b);
+      const rangeLabels = [];
       let values = [];
       labels.forEach((label) => {
-        values.push(this.simulationData.predictions[label]);
+        const range = this.getOuterRange(label);
+        rangeLabels.push(range);
+        const prediction = this.simulationData.predictions[label];
+        values.push(prediction);
       });
       return {
-        'labels': labels,
+        'labels': rangeLabels,
         'datasets': [
           {
             label: 'Prediction',
@@ -168,6 +181,21 @@ export default {
           }
         ],
       };
+    },
+    getOuterRange(innerValue) {
+        const outerPossibleValues = Object.keys(this.miningUnits);
+        // TODO: fix hardcoded action & MIN/MAX
+        const mapper = this.miningUnits[outerPossibleValues[0]].units['action@googl.us.txt'];
+        const range = 40 + 1;
+        const step = Math.floor(Math.max(1, range / (mapper.groupCount + 2)));
+		const index = Math.floor((parseInt(innerValue) + 20) / step);
+        if (innerValue == 0) {
+            return `< ${mapper.mapperBounds[0].first_}`;
+        } else if (innerValue == mapper.mapperBounds.length) {
+            return `>= ${mapper.mapperBounds[mapper.mapperBounds.length - 1].first_}`;
+        }
+        const bound = mapper.mapperBounds[index];
+        return `[${bound.first_}, ${bound.second_}]`;
     },
     getRawDataset() {
       this.$api.getRawDataset().then((result) => {
