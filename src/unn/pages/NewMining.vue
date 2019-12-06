@@ -111,6 +111,7 @@ export default {
       randomSimulatorItem: null,
       miningCounter: 0,
       miningUnits: {},
+      miningConfig: {},
     }
   },
   components: {
@@ -124,6 +125,7 @@ export default {
     this.$api.getMiningUnits().then((result) => {
       this.miningUnits = result.data;
     });
+    this.getMiningConfig();
     this.show();
   },
   methods: {
@@ -135,6 +137,11 @@ export default {
     },
     hide () {
       this.$modal.hide('load-dataset-modal');
+    },
+    getMiningConfig() {
+        this.$api.getMiningConfig().then((result) => {
+          this.miningConfig = result.data;
+        });
     },
     randomizeRawDataset() {
       const guess = Math.round(Math.random() * this.rawDataset.length);
@@ -182,10 +189,14 @@ export default {
         ],
       };
     },
+    getMiningTargetFeature() {
+        return this.miningConfig.targetFeature;
+    },
     getOuterRange(innerValue) {
+        const targetFeature = this.getMiningTargetFeature();
         const outerPossibleValues = Object.keys(this.miningUnits);
         // TODO: fix hardcoded action & MIN/MAX
-        const mapper = this.miningUnits[outerPossibleValues[0]].units['action@googl.us.txt'];
+        const mapper = this.miningUnits[outerPossibleValues[0]].units[targetFeature];
         const range = 40 + 1;
         const step = Math.floor(Math.max(1, range / (mapper.groupCount + 2)));
 		const index = Math.floor((parseInt(innerValue) + 20) / step);
@@ -221,6 +232,7 @@ export default {
         groupCount: this.groupCounts,
     }).finally(() => {
         this.$modal.show('mining-status-modal');
+        this.getMiningConfig();
     })
     },
   },

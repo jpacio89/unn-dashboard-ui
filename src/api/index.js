@@ -15,6 +15,7 @@ ENDPOINTS = {
   'FEATURE_HISTOGRAM': host + '/feature/histogram/1',
   'MINING_STATUS': host + '/mine/status/1',
   'MINING_UNITS': host + '/mine/units/1',
+  'MINING_CONFIG': host + '/mine/config/1',
 }
 
 export default {
@@ -27,4 +28,5 @@ export default {
   getFeatureHistogram: (groupCount, feature) => axios.get(`${ENDPOINTS['FEATURE_HISTOGRAM']}?groupCount=${groupCount}&feature=${feature}`),
   getMiningStatus: () => axios.get(ENDPOINTS['MINING_STATUS']),
   getMiningUnits: () => axios.get(ENDPOINTS['MINING_UNITS']),
+  getMiningConfig: () => axios.get(ENDPOINTS['MINING_CONFIG']),
 }
