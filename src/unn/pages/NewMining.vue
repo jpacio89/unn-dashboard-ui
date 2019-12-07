@@ -200,10 +200,10 @@ export default {
         const range = 40 + 1;
         const step = Math.floor(Math.max(1, range / (mapper.groupCount + 2)));
 		const index = Math.floor((parseInt(innerValue) + 20) / step);
-        if (innerValue == 0) {
+        if (index == 0) {
             return `< ${mapper.mapperBounds[0].first_}`;
-        } else if (innerValue == mapper.mapperBounds.length) {
-            return `>= ${mapper.mapperBounds[mapper.mapperBounds.length - 1].first_}`;
+        } else if (index == mapper.mapperBounds.length) {
+            return `>= ${mapper.mapperBounds[mapper.mapperBounds.length - 1].second_}`;
         }
         const bound = mapper.mapperBounds[index];
         return `[${bound.first_}, ${bound.second_}]`;
