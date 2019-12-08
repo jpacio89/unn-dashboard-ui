@@ -37,6 +37,10 @@
     </table>
     <va-button color="success" @click="randomize">Randomize</va-button>
     <va-button color="success" @click="simulate">Simulate</va-button>
+    <div>
+        <input type="text" v-model="rawInput" />
+        <va-button color="success" @click="simulateRaw">Raw Input</va-button>
+    </div>
   </div>
 </template>
 
@@ -49,7 +53,8 @@ export default {
       componentKey: 0,
       blacklist: {},
       isblack: false,
-      pickedValues: {}
+      pickedValues: {},
+      rawInput: '{}',
     }
   },
   watch: {
@@ -68,6 +73,11 @@ export default {
 
   },
   methods: {
+    simulateRaw() {
+        this.pickedValues = JSON.parse(this.rawInput);
+        this.componentKey++;
+        this.simulate();
+    },
     getOuterRange(feature, outerValue) {
         const outerPossibleValues = Object.keys(this.miningUnits);
         const mapper = this.miningUnits[outerPossibleValues[0]].units[feature];
