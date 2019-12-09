@@ -101,7 +101,7 @@ export default {
         if (index === 0) {
             return `< ${mapper.mapperBounds[0].first_}`;
         } else if (index === mapper.mapperBounds.length) {
-            return `>= ${mapper.mapperBounds[mapper.mapperBounds.length - 1].first_}`;
+            return `>= ${mapper.mapperBounds[mapper.mapperBounds.length - 1].second_}`;
         }
         const bound = mapper.mapperBounds[index-1];
         return `[${bound.first_}, ${bound.second_}]`;
