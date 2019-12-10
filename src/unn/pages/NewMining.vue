@@ -197,6 +197,9 @@ export default {
         const outerPossibleValues = Object.keys(this.miningUnits);
         // TODO: fix hardcoded action & MIN/MAX
         const mapper = this.miningUnits[outerPossibleValues[0]].units[targetFeature];
+        if (!mapper.mapperBounds) {
+            return innerValue;
+        }
         const range = 40 + 1;
         const step = Math.floor(Math.max(1, range / (mapper.groupCount + 2)));
 		const index = Math.floor((parseInt(innerValue) + 20) / step);
