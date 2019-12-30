@@ -16,6 +16,7 @@ ENDPOINTS = {
   'MINING_STATUS': host + '/mine/status/1',
   'MINING_UNITS': host + '/mine/units/1',
   'MINING_CONFIG': host + '/mine/config/1',
+  'MORPH': host + '/morph/1',
 }
 
 export default {
@@ -29,4 +30,5 @@ export default {
   getMiningStatus: () => axios.get(ENDPOINTS['MINING_STATUS']),
   getMiningUnits: () => axios.get(ENDPOINTS['MINING_UNITS']),
   getMiningConfig: () => axios.get(ENDPOINTS['MINING_CONFIG']),
+  morph: (args) => axios.post(ENDPOINTS['MORPH'], args, { headers: { 'Content-Type': 'application/json' } }),
 }

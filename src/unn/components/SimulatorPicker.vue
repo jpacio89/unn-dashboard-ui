@@ -37,6 +37,7 @@
     </table>
     <va-button color="success" @click="randomize">Randomize</va-button>
     <va-button color="success" @click="simulate">Simulate</va-button>
+    <va-button color="success" @click="morph">Morph</va-button>
     <div>
         <input type="text" v-model="rawInput" />
         <va-button color="success" @click="simulateRaw">Raw Input</va-button>
@@ -150,11 +151,19 @@ export default {
         this.uiRefresh();
       });
     },
+    morph() {
+        this.$api.morph({
+          blacklist: Object.keys(this.blacklist),
+          seeds: this.pickedValues
+        }).then((result) => {
+            this.$emit('morphdatachange', result.data);
+        });
+    },
     simulate() {
       this.$api.simulate({
         blacklist: Object.keys(this.blacklist),
         seeds: this.pickedValues
-        }).then((result) => {
+      }).then((result) => {
           this.$emit('simulationdatachange', result.data);
       });
     }
