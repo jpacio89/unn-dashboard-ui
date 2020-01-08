@@ -144,8 +144,11 @@ export default {
         });
     },
     randomizeRawDataset() {
-      const guess = Math.round(Math.random() * this.rawDataset.length);
-      this.randomSimulatorItem = this.rawDataset[guess];
+      const guess = Math.round(Math.random() * this.rawDataset.body.length);
+      this.randomSimulatorItem = {
+          body: this.rawDataset.body[guess],
+          header: this.rawDataset.header,
+      };
     },
     handleSimulationDataChange(simulationData) {
       this.simulationData = simulationData;

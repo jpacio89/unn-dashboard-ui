@@ -1,6 +1,8 @@
 <template>
   <div>
-    <table class="va-table va-table--striped va-table--hoverable">
+    <table
+        class="va-table va-table--striped va-table--hoverable"
+        v-if="this.randomSimulatorItem">
       <thead>
         <tr>
           <th>Feature</th>
@@ -10,7 +12,7 @@
       </thead>
 
       <tbody>
-        <tr v-for="feature in features" v-bind:key="feature + '::' + componentKey" v-if="!isBlacklisted(feature)">
+        <tr v-for="(feature, index) in this.randomSimulatorItem.header" v-bind:key="feature + '::' + componentKey" v-if="!isBlacklisted(feature)">
           <td>{{ feature.replace(/\"/g, "") }}</td>
           <td>
               <va-badge
@@ -22,10 +24,10 @@
                 <span @click="toggleValue(feature, value)">{{ value }}</span>
               </va-badge>
               <!--  && (!pickedValues[feature] || pickedValues[feature].length <= 1) -->
-              <span v-if="randomSimulatorItem && getOuterRange(feature, randomSimulatorItem[feature]) !== 'N/A'">
-                  {{ randomSimulatorItem[feature] }}
+              <span v-if="randomSimulatorItem && getOuterRange(feature, randomSimulatorItem.body[index]) !== 'N/A'">
+                  {{ randomSimulatorItem.body[index] }}
                   &nbsp;
-                  {{ getOuterRange(feature, randomSimulatorItem[feature]) }}
+                  {{ getOuterRange(feature, randomSimulatorItem.body[index]) }}
               </span>
           </td>
           <td style="vertical-align: top; width: 100px;">
@@ -61,10 +63,13 @@ export default {
   watch: {
     randomSimulatorItem: function() {
       if (this.randomSimulatorItem) {
-        const features = Object.keys(this.randomSimulatorItem);
-        features.forEach((feature) => {
-            this.pickedValues[feature] = {};
-            this.pickedValues[feature][this.randomSimulatorItem[feature]] = true;
+        this.pickedValues = {};
+        this.randomSimulatorItem.header.forEach((feature, index) => {
+            console.log(this.randomSimulatorItem);
+            if (!this.pickedValues[feature]) {
+                this.pickedValues[feature] = {};
+            }
+            this.pickedValues[feature][this.randomSimulatorItem.body[index]] = true;
         });
         this.componentKey++;
       }
