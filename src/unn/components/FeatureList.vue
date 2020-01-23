@@ -29,7 +29,7 @@
 <script>
 export default {
   name: 'FeatureList',
-  props: ['features', 'units', 'defaultClass'],
+  props: ['features', 'units', 'defaultClass', 'bl'],
   data() {
     return {
       componentKey: 0,
@@ -37,6 +37,9 @@ export default {
       isblack: false,
       defaultClassInner: null,
     }
+  },
+  updated() {
+      this.blacklist = this.bl || {};
   },
   components: {
 

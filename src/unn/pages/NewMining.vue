@@ -7,6 +7,7 @@
               <div class="flex xs12 feature-list">
                 <va-card title="Dataset Features">
                   <FeatureList
+                    :bl="blacklist"
                     :features="features"
                     :units="units"
                     :defaultClass="defaultClass"
@@ -224,12 +225,20 @@ export default {
         setTimeout(() => this.$api.fetchUnitsReport().then((result) => {
           this.units = result.data.units;
           this.features = result.data.features;
+          this.setInitialBlacklist();
           this.defaultClass = this.features[this.features.length - 1];
           this.isLoaded = true;
           this.getRawDataset();
           this.hide();
         }), 1000);
       });
+    },
+    setInitialBlacklist() {
+        this.features.forEach((feature) => {
+            if (this.units[feature] && this.units[feature].allInnerValues.length <= 1) {
+                this.blacklist[feature] = true;
+            }
+        });
     },
     mineDataset() {
       this.$api.mineDataset({
