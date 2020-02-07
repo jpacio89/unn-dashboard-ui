@@ -40,6 +40,10 @@
                 :unknowns="miningReport.data.confusionMatrixes[matrixKey].unknownCount" />
             </div>
           </api-request>
+          <div>
+              <va-button color="success" @click="saveSession">Save</va-button>
+              <va-button color="success" @click="loadSession">Load</va-button>
+          </div>
         </tab>
         <tab name="Simulation">
           <div class="row row-equal">
@@ -71,6 +75,7 @@
         <va-input
           v-model="datasetId"
           placeholder="Insert dataset ID" />
+        <va-button color="success" @click="cancelDataset">Cancel</va-button>
         <va-button color="success" @click="getDataset">Load</va-button>
       </va-card>
     </modal>
@@ -130,6 +135,12 @@ export default {
     this.show();
   },
   methods: {
+    saveSession() {
+      this.$api.saveSession();
+    },
+    loadSession() {
+      this.$api.loadSession();
+    },
     load() {
       return () => this.$api.fetchMiningReport();
     },
@@ -219,6 +230,9 @@ export default {
       this.$api.getRawDataset().then((result) => {
         this.rawDataset = result.data;
       });
+    },
+    cancelDataset() {
+        this.hide();
     },
     getDataset() {
       this.$api.loadDataset(this.datasetId).then(() => {

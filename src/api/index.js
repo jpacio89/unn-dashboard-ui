@@ -17,6 +17,8 @@ ENDPOINTS = {
   'MINING_UNITS': host + '/mine/units/1',
   'MINING_CONFIG': host + '/mine/config/1',
   'MORPH': host + '/morph/1',
+  'SAVE_SESSION': host + '/save/session/1',
+  'LOAD_SESSION': host + '/load/session/1',
 }
 
 export default {
@@ -31,4 +33,6 @@ export default {
   getMiningUnits: () => axios.get(ENDPOINTS['MINING_UNITS']),
   getMiningConfig: () => axios.get(ENDPOINTS['MINING_CONFIG']),
   morph: (args) => axios.post(ENDPOINTS['MORPH'], args, { headers: { 'Content-Type': 'application/json' } }),
+  saveSession: () => axios.post(ENDPOINTS['SAVE_SESSION']),
+  loadSession: () => axios.post(ENDPOINTS['LOAD_SESSION']),
 }
