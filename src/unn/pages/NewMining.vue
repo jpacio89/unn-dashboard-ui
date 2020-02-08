@@ -132,6 +132,15 @@ export default {
       this.miningUnits = result.data;
     });
     this.getMiningConfig();
+    setTimeout(() => this.$api.fetchUnitsReport().then((result) => {
+      this.units = result.data.units;
+      this.features = result.data.features;
+      this.setInitialBlacklist();
+      this.defaultClass = this.features[this.features.length - 1];
+      this.isLoaded = true;
+      this.getRawDataset();
+      this.handleMiningDone();
+    }), 100);
     this.show();
   },
   methods: {
@@ -139,7 +148,18 @@ export default {
       this.$api.saveSession();
     },
     loadSession() {
-      this.$api.loadSession();
+      this.$api.loadSession().then(() => {
+          setTimeout(() => this.$api.fetchUnitsReport().then((result) => {
+            this.units = result.data.units;
+            this.features = result.data.features;
+            this.setInitialBlacklist();
+            this.defaultClass = this.features[this.features.length - 1];
+            this.isLoaded = true;
+            this.getRawDataset();
+            this.handleMiningDone();
+            this.hide();
+        }), 100);
+      })
     },
     load() {
       return () => this.$api.fetchMiningReport();
