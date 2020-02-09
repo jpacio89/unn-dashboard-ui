@@ -10,6 +10,13 @@ export const navigationRoutes = {
       meta: {
         iconClass: 'vuestic-iconset-dashboard',
       },
+    },
+    {
+      name: 'unn-list-saved-sessions',
+      displayName: 'menu.listSavedSessions',
+      meta: {
+        iconClass: 'vuestic-iconset-files',
+      },
     }/*,
     {
       name: 'statistics',

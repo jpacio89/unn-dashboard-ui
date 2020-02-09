@@ -19,10 +19,11 @@ ENDPOINTS = {
   'MORPH': host + '/morph/1',
   'SAVE_SESSION': host + '/save/session/1',
   'LOAD_SESSION': host + '/load/session/1',
+  'LIST_SAVED_SESSIONS': host + '/list/saved/sessions',
 }
 
 export default {
-  loadDataset: (datasetId) => axios.post(ENDPOINTS['LOAD_DATASET'] + '/' + datasetId),
+  loadDataset: (datasetName, datasetId) => axios.post(ENDPOINTS['LOAD_DATASET'] + '/' + datasetId + `?name=${datasetName}`),
   fetchUnitsReport: () => axios.get(ENDPOINTS['FETCH_UNITS']),
   mineDataset: (args) => axios.post(ENDPOINTS['MINE_DATASET'], args, { headers: { 'Content-Type': 'application/json' } }),
   fetchMiningReport: () => axios.get(ENDPOINTS['FETCH_MINING_REPORT']),
@@ -34,5 +35,6 @@ export default {
   getMiningConfig: () => axios.get(ENDPOINTS['MINING_CONFIG']),
   morph: (args) => axios.post(ENDPOINTS['MORPH'], args, { headers: { 'Content-Type': 'application/json' } }),
   saveSession: () => axios.post(ENDPOINTS['SAVE_SESSION']),
-  loadSession: () => axios.post(ENDPOINTS['LOAD_SESSION']),
+  loadSession: (sessionName) => axios.post(ENDPOINTS['LOAD_SESSION'] + `?name=${sessionName}`),
+  listSavedSessions: () => axios.get(ENDPOINTS['LIST_SAVED_SESSIONS']),
 }

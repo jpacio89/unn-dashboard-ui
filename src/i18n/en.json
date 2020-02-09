@@ -314,7 +314,8 @@
     "sliders": "Sliders",
     "popovers": "Popovers",
     "chat": "Chat",
-    "newMining": "New Mining Session"
+    "newMining": "New Mining Session",
+    "listSavedSessions": "Saved Sessions"
   },
   "messages": {
     "all": "See all messages",

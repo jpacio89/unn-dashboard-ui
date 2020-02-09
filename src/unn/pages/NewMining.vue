@@ -73,8 +73,11 @@
     <modal name="load-dataset-modal" :scrollable="false" :clickToClose="false">
       <va-card title="Load OpenML Dataset">
         <va-input
-          v-model="datasetId"
-          placeholder="Insert dataset ID" />
+            v-model="datasetName"
+            placeholder="Session Name" />
+        <va-input
+            v-model="datasetId"
+            placeholder="Dataset ID" />
         <va-button color="success" @click="cancelDataset">Cancel</va-button>
         <va-button color="success" @click="getDataset">Load</va-button>
       </va-card>
@@ -98,6 +101,7 @@ export default {
   data() {
     return {
       componentKeyChart: 0,
+      datasetName: '',
       datasetId: null,
       units: {},
       features: [],
@@ -255,7 +259,7 @@ export default {
         this.hide();
     },
     getDataset() {
-      this.$api.loadDataset(this.datasetId).then(() => {
+      this.$api.loadDataset(this.datasetName, this.datasetId).then(() => {
         setTimeout(() => this.$api.fetchUnitsReport().then((result) => {
           this.units = result.data.units;
           this.features = result.data.features;

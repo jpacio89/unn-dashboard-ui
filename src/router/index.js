@@ -85,6 +85,12 @@ export default new Router({
           component: () => import('../unn/pages/NewMining.vue'),
           default: true,
         },
+        {
+          name: 'unn-list-saved-sessions',
+          path: 'list/saved/sessions',
+          component: () => import('../unn/pages/SavedSessions.vue'),
+          default: true,
+        },
       ]
     },
     {
