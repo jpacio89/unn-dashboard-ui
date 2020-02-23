@@ -24,13 +24,22 @@
                                 v-bind:key="instrument + '-' + timeline"
                                 style="vertical-align: top; width: 200px;">
                                 <div>
-                                    DOWN = <b>{{ getPrediction(instrument, timeline, 'DOWN') }}</b>
+                                    DOWN =
+                                    <b>{{ getPrediction(instrument, timeline, 'DOWN') }}</b>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    ({{ getAccuracy(instrument, timeline, 'DOWN') }}%)
                                 </div>
                                 <div>
-                                    MID = <b>{{ getPrediction(instrument, timeline, '-') }}</b>
+                                    MID =
+                                    <b>{{ getPrediction(instrument, timeline, '-') }}</b>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    ({{ getAccuracy(instrument, timeline, '-') }}%)
                                 </div>
                                 <div>
-                                    UP = <b>{{ getPrediction(instrument, timeline, 'UP') }}</b>
+                                    UP =
+                                    <b>{{ getPrediction(instrument, timeline, 'UP') }}</b>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    ({{ getAccuracy(instrument, timeline, 'UP') }}%)
                                 </div>
                               </td>
                             </tr>
@@ -97,6 +106,17 @@ export default {
                 return '?';
             }
         return Math.round(this.insights[instrument][timeline].predictions[indicator]);
+      },
+      getAccuracy(instrument, timeline, indicator) {
+          if (!this.insights ||
+              !this.insights[instrument] ||
+              !this.insights[instrument][timeline] ||
+              !this.insights[instrument][timeline].confusionMatrixes[indicator]) {
+            return '?';
+          }
+          const confusionMatrixes = this.insights[instrument][timeline].confusionMatrixes[indicator];
+          const acc = (confusionMatrixes[0][0] + confusionMatrixes[2][2]) * 100 / (confusionMatrixes[0][0] + confusionMatrixes[2][2] + confusionMatrixes[0][2] + confusionMatrixes[2][0]);
+          return Math.round(acc);
       }
   },
 }
