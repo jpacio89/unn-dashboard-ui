@@ -20,6 +20,8 @@ ENDPOINTS = {
   'SAVE_SESSION': host + '/save/session/1',
   'LOAD_SESSION': host + '/load/session/1',
   'LIST_SAVED_SESSIONS': host + '/list/saved/sessions',
+  // INFO: stocknet
+  'STOCKNET_INSIGHTS': 'http://localhost:8099/digest/insights.php',
 }
 
 export default {
@@ -37,4 +39,5 @@ export default {
   saveSession: () => axios.post(ENDPOINTS['SAVE_SESSION']),
   loadSession: (sessionName) => axios.post(ENDPOINTS['LOAD_SESSION'] + `?name=${sessionName}`),
   listSavedSessions: () => axios.get(ENDPOINTS['LIST_SAVED_SESSIONS']),
+  getStocknetInsights: () => axios.get(ENDPOINTS['STOCKNET_INSIGHTS']),
 }

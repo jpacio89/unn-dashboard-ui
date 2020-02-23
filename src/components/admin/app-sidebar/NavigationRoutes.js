@@ -17,6 +17,13 @@ export const navigationRoutes = {
       meta: {
         iconClass: 'vuestic-iconset-files',
       },
+    },
+    {
+      name: 'unn-stocknet',
+      displayName: 'menu.stocknet',
+      meta: {
+        iconClass: 'vuestic-iconset-statistics',
+      },
     }/*,
     {
       name: 'statistics',

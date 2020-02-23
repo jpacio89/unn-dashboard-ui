@@ -91,7 +91,13 @@ export default new Router({
           component: () => import('../unn/pages/SavedSessions.vue'),
           default: true,
         },
-      ]
+        {
+          name: 'unn-stocknet',
+          path: 'stocknet',
+          component: () => import('../unn/pages/Stocknet.vue'),
+          default: true,
+        },
+      ],
     },
     {
       name: 'Admin',

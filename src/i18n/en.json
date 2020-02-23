@@ -315,7 +315,8 @@
     "popovers": "Popovers",
     "chat": "Chat",
     "newMining": "New Mining Session",
-    "listSavedSessions": "Saved Sessions"
+    "listSavedSessions": "Saved Sessions",
+    "stocknet": "Stocknet"
   },
   "messages": {
     "all": "See all messages",
