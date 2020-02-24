@@ -18,32 +18,17 @@
 
                           <tbody>
                             <tr v-for="instrument in instruments" v-bind:key="instrument">
-                              <td>{{ instrumentNames[instrument] || instrument }}</td>
+                              <td>
+                                <b>{{ instrumentNames[instrument] || instrument }}</b>
+                              </td>
                               <td
-                                v-for="timeline in timelines"
-                                v-bind:key="instrument + '-' + timeline"
-                                style="vertical-align: top; width: 250px;">
-                                <div>
-                                    DOWN =
-                                    <b>{{ getPrediction(instrument, timeline, 'DOWN') }}</b>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    (SD{{ getAccuracySide(instrument, timeline, 'DOWN') }}%)
-                                    (GL{{ getAccuracy(instrument, timeline, 'DOWN') }}%)
-                                </div>
-                                <div>
-                                    MID =
-                                    <b>{{ getPrediction(instrument, timeline, '-') }}</b>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    (SD{{ getAccuracySide(instrument, timeline, '-') }}%)
-                                    (GL{{ getAccuracy(instrument, timeline, '-') }}%)
-                                </div>
-                                <div>
-                                    UP =
-                                    <b>{{ getPrediction(instrument, timeline, 'UP') }}</b>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    (SD{{ getAccuracySide(instrument, timeline, 'UP') }}%)
-                                    (GL{{ getAccuracy(instrument, timeline, 'UP') }}%)
-                                </div>
+                                  v-for="timeline in timelines"
+                                  v-bind:key="instrument + '-' + timeline"
+                                  style="vertical-align: top; width: 300px;">
+                                  <PredictionTable
+                                    :insights="insights"
+                                    :instrument="instrument"
+                                    :timeline="timeline" />
                               </td>
                             </tr>
                           </tbody>
@@ -56,6 +41,8 @@
 </template>
 
 <script>
+import PredictionTable from '@/unn/components/PredictionTable.vue';
+
 export default {
   name: 'savedsessions',
   data() {
@@ -91,10 +78,12 @@ export default {
       }
     }
   },
-  components: {},
+  components: {
+      PredictionTable
+  },
   mounted() {
     this.$api.getStocknetInsights().then((result) => {
-        debugger;
+      debugger;
       this.insights = result.data;
       this.instruments = Object.keys(this.insights);
       this.timelines = Object.keys(this.insights[this.instruments[0]]);
