@@ -22,24 +22,27 @@
                               <td
                                 v-for="timeline in timelines"
                                 v-bind:key="instrument + '-' + timeline"
-                                style="vertical-align: top; width: 200px;">
+                                style="vertical-align: top; width: 250px;">
                                 <div>
                                     DOWN =
                                     <b>{{ getPrediction(instrument, timeline, 'DOWN') }}</b>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    ({{ getAccuracy(instrument, timeline, 'DOWN') }}%)
+                                    (SD{{ getAccuracySide(instrument, timeline, 'DOWN') }}%)
+                                    (GL{{ getAccuracy(instrument, timeline, 'DOWN') }}%)
                                 </div>
                                 <div>
                                     MID =
                                     <b>{{ getPrediction(instrument, timeline, '-') }}</b>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    ({{ getAccuracy(instrument, timeline, '-') }}%)
+                                    (SD{{ getAccuracySide(instrument, timeline, '-') }}%)
+                                    (GL{{ getAccuracy(instrument, timeline, '-') }}%)
                                 </div>
                                 <div>
                                     UP =
                                     <b>{{ getPrediction(instrument, timeline, 'UP') }}</b>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    ({{ getAccuracy(instrument, timeline, 'UP') }}%)
+                                    (SD{{ getAccuracySide(instrument, timeline, 'UP') }}%)
+                                    (GL{{ getAccuracy(instrument, timeline, 'UP') }}%)
                                 </div>
                               </td>
                             </tr>
@@ -117,6 +120,25 @@ export default {
           const confusionMatrixes = this.insights[instrument][timeline].confusionMatrixes[indicator];
           const acc = (confusionMatrixes[0][0] + confusionMatrixes[2][2]) * 100 / (confusionMatrixes[0][0] + confusionMatrixes[2][2] + confusionMatrixes[0][2] + confusionMatrixes[2][0]);
           return Math.round(acc);
+      },
+      getAccuracySide(instrument, timeline, indicator) {
+            if (!this.insights ||
+              !this.insights[instrument] ||
+              !this.insights[instrument][timeline] ||
+              !this.insights[instrument][timeline].confusionMatrixes[indicator]) {
+            return '?';
+            }
+            const prediction = this.getPrediction(instrument, timeline, indicator);
+            const confusionMatrixes = this.insights[instrument][timeline].confusionMatrixes[indicator];
+            let acc;
+            if (prediction === 20) {
+                acc = Math.round(confusionMatrixes[2][2] * 100 / (confusionMatrixes[2][0] + confusionMatrixes[2][2]));
+            } else if (prediction === -20) {
+                acc = Math.round(confusionMatrixes[0][0] * 100 / (confusionMatrixes[0][0] + confusionMatrixes[0][2]));
+            } else {
+                acc = '?';
+            }
+          return acc;
       }
   },
 }
