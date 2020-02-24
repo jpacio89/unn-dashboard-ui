@@ -90,45 +90,7 @@ export default {
     });
   },
   methods: {
-      getPrediction(instrument, timeline, indicator) {
-        if (!this.insights ||
-            !this.insights[instrument] ||
-            !this.insights[instrument][timeline] ||
-            !this.insights[instrument][timeline].predictions[indicator]) {
-                return '?';
-            }
-        return Math.round(this.insights[instrument][timeline].predictions[indicator]);
-      },
-      getAccuracy(instrument, timeline, indicator) {
-          if (!this.insights ||
-              !this.insights[instrument] ||
-              !this.insights[instrument][timeline] ||
-              !this.insights[instrument][timeline].confusionMatrixes[indicator]) {
-            return '?';
-          }
-          const confusionMatrixes = this.insights[instrument][timeline].confusionMatrixes[indicator];
-          const acc = (confusionMatrixes[0][0] + confusionMatrixes[2][2]) * 100 / (confusionMatrixes[0][0] + confusionMatrixes[2][2] + confusionMatrixes[0][2] + confusionMatrixes[2][0]);
-          return Math.round(acc);
-      },
-      getAccuracySide(instrument, timeline, indicator) {
-            if (!this.insights ||
-              !this.insights[instrument] ||
-              !this.insights[instrument][timeline] ||
-              !this.insights[instrument][timeline].confusionMatrixes[indicator]) {
-            return '?';
-            }
-            const prediction = this.getPrediction(instrument, timeline, indicator);
-            const confusionMatrixes = this.insights[instrument][timeline].confusionMatrixes[indicator];
-            let acc;
-            if (prediction === 20) {
-                acc = Math.round(confusionMatrixes[2][2] * 100 / (confusionMatrixes[2][0] + confusionMatrixes[2][2]));
-            } else if (prediction === -20) {
-                acc = Math.round(confusionMatrixes[0][0] * 100 / (confusionMatrixes[0][0] + confusionMatrixes[0][2]));
-            } else {
-                acc = '?';
-            }
-          return acc;
-      }
+      
   },
 }
 </script>

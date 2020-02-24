@@ -7,7 +7,7 @@
             <th>Full ACC</th>
         </thead>
         <tbody>
-          <tr v-for="indicator in indicators" v-bind:key="indicator">
+          <tr v-for="indicator in indicators" v-bind:key="indicator" :class="{ 'highlight': shouldHighlight(instrument, timeline, indicator) }">
             <td>{{ indicator }}</td>
             <td><b>{{ getPrediction(instrument, timeline, indicator) }}</b></td>
             <td>{{ getAccuracySide(instrument, timeline, indicator) }}%</td>
@@ -95,6 +95,14 @@ export default {
                 acc = '?';
             }
           return acc;
+      },
+      shouldHighlight(instrument, timeline, indicator) {
+        const prediction = this.getPrediction(instrument, timeline, indicator);
+        const acc = this.getAccuracySide(instrument, timeline, indicator);
+        if (acc === '?') {
+            return false;
+        }
+        return indicator !== '-' && prediction === 20 && acc >= 85;
       }
   },
 }
@@ -107,6 +115,10 @@ export default {
     td {
       width: 33.333%;
       text-align: center;
+    }
+
+    .highlight td {
+        background-color: lightgreen;
     }
   }
 </style>
