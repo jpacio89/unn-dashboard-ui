@@ -28,7 +28,7 @@
                                   <PredictionTable
                                     :insights="insights"
                                     :instrument="instrument"
-                                    :timeline="timeline" />
+                                    :timeline="`${timeline}d`" />
                               </td>
                             </tr>
                           </tbody>
@@ -75,6 +75,36 @@ export default {
           'i17': 'Crude Oil',
           'i2': 'GBP/USD',
           'i27': 'USA 500',
+          'i40': 'Platinum',
+          'i48': 'AUD/NZD',
+          'i31': 'FRA40',
+          'i29': 'US30',
+          'i46': 'AUD/CHF',
+          'i52': 'GBP/NZD',
+          'i33': 'AUS200',
+          'i32': 'GER30',
+          'i43': 'EURO50',
+          'i42': 'USD/ZAR',
+          'i72': 'CHF/HUF',
+          'i66': 'ZAR/JPY',
+          'i65': 'GBP/CAD',
+          'i1011': 'Bank of America',
+          'i1010': 'Boeing',
+          'i1012': 'Caterpillar',
+          'i1002': 'Google',
+          'i1001': 'Apple',
+          'i1003': 'Facebook',
+          'i1006': 'Altaba',
+          'i1007': 'Zynga',
+          'i1005': 'Amazon',
+          'i1009': 'American Express',
+          'i1013': 'Cisco',
+          'i30': 'UK100',
+          'i1008': 'Alcoa',
+          'i1004': 'Microsoft',
+          'i49': 'EUR/NZD',
+          'i1014': 'Chevron',
+
       }
     }
   },
@@ -83,14 +113,14 @@ export default {
   },
   mounted() {
     this.$api.getStocknetInsights().then((result) => {
-      debugger;
       this.insights = result.data;
       this.instruments = Object.keys(this.insights);
-      this.timelines = Object.keys(this.insights[this.instruments[0]]);
+      //this.timelines = Object.keys(this.insights[this.instruments[0]]).map((key) => parseInt(key.replace(/d/, ''))).sort((a,b) => a-b);
+      this.timelines = [3, 5, 7, 10, 14];
     });
   },
   methods: {
-      
+
   },
 }
 </script>

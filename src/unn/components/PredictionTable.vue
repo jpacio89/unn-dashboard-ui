@@ -25,32 +25,6 @@ export default {
   data() {
     return {
         indicators: ['DOWN', '-', 'UP'],
-        instrumentNames: {
-            'i1': 'EUR/USD',
-            'i15': 'CAD/JPY',
-            'i9': 'EUR/CHF',
-            'i19': 'Silver',
-            'i3': 'NZD/USD',
-            'i8': 'EUR/GBP',
-            'i14': 'AUD/JPY',
-            'i26': 'China 50',
-            'i11': 'GBP/JPY',
-            'i5': 'USD/JPY',
-            'i10': 'EUR/JPY',
-            'i22': 'Natural Gas',
-            'i6': 'USD/CHF',
-            'i4': 'USD/CAD',
-            'i18': 'Gold',
-            'i21': 'Copper',
-            'i13': 'EUR/CAD',
-            'i7': 'AUD/USD',
-            'i12': 'EUR/AUD',
-            'i16': 'CHF/JPY',
-            'i25': 'US Dollar Index',
-            'i17': 'Crude Oil',
-            'i2': 'GBP/USD',
-            'i27': 'USA 500',
-        }
     }
   },
   components: {
@@ -102,7 +76,7 @@ export default {
         if (acc === '?') {
             return false;
         }
-        return indicator !== '-' && prediction === 20 && acc >= 85;
+        return /*indicator !== '-' && */prediction === 20 && acc >= 70;
       }
   },
 }
