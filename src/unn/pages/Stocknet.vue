@@ -104,7 +104,12 @@ export default {
           'i1004': 'Microsoft',
           'i49': 'EUR/NZD',
           'i1014': 'Chevron',
-
+          'i1038': 'Honda',
+          'i100020': 'Stellar',
+          'i100000': 'Bitcoin',
+          'i100001': 'Ethereum',
+          'i100032': 'Tezos',
+          'i100026': 'TRON',
       }
     }
   },
@@ -116,7 +121,7 @@ export default {
       this.insights = result.data;
       this.instruments = Object.keys(this.insights);
       //this.timelines = Object.keys(this.insights[this.instruments[0]]).map((key) => parseInt(key.replace(/d/, ''))).sort((a,b) => a-b);
-      this.timelines = [3, 5, 7, 10, 14];
+      this.timelines = [3, 5, 7, 10, 14, 28, 56];
     });
   },
   methods: {

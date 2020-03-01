@@ -3,8 +3,8 @@
         <thead>
             <th>Indicator</th>
             <th>Value</th>
-            <th>Side ACC</th>
-            <th>Full ACC</th>
+            <th>TPR/TNR</th>
+            <th>Accuracy</th>
         </thead>
         <tbody>
           <tr v-for="indicator in indicators" v-bind:key="indicator" :class="{ 'highlight': shouldHighlight(instrument, timeline, indicator) }">
@@ -76,7 +76,7 @@ export default {
         if (acc === '?') {
             return false;
         }
-        return /*indicator !== '-' && */prediction === 20 && acc >= 70;
+        return indicator !== '-' && prediction === 20 && acc >= 70;
       }
   },
 }
