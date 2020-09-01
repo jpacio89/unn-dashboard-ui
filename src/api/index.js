@@ -3,22 +3,23 @@ import axios from 'axios'
 
 let ENDPOINTS
 
+const inputterHost = 'http://localhost:9001'
 const host = 'http://localhost:7000'
 
 ENDPOINTS = {
-  'LOAD_DATASET': host + '/dataset/load',
-  'FETCH_UNITS': host + '/dataset/units/1',
-  'MINE_DATASET': host + '/dataset/mine/1',
-  'FETCH_MINING_REPORT': host + '/mine/report/1',
-  'SIMULATE': host + '/simulate/1',
-  'RAW_DATASET': host + '/dataset/raw/1',
-  'FEATURE_HISTOGRAM': host + '/feature/histogram/1',
-  'MINING_STATUS': host + '/mine/status/1',
-  'MINING_UNITS': host + '/mine/units/1',
-  'MINING_CONFIG': host + '/mine/config/1',
-  'MORPH': host + '/morph/1',
-  'SAVE_SESSION': host + '/save/session/1',
-  'LOAD_SESSION': host + '/load/session/1',
+  'LOAD_DATASET': inputterHost + '/dataset/load/openml',
+  'FETCH_UNITS': host + '/dataset/units',
+  'MINE_DATASET': host + '/dataset/mine',
+  'FETCH_MINING_REPORT': host + '/mine/report',
+  'SIMULATE': host + '/simulate',
+  'RAW_DATASET': host + '/dataset/raw',
+  'FEATURE_HISTOGRAM': host + '/feature/histogram',
+  'MINING_STATUS': host + '/mine/status',
+  'MINING_UNITS': host + '/mine/units',
+  'MINING_CONFIG': host + '/mine/config',
+  'MORPH': host + '/morph',
+  'SAVE_SESSION': host + '/save/session',
+  'LOAD_SESSION': host + '/load/session',
   'LIST_SAVED_SESSIONS': host + '/list/saved/sessions',
   // INFO: stocknet
   'STOCKNET_INSIGHTS': 'http://localhost:8099/digest/insights.php',
