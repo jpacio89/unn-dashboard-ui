@@ -3,13 +3,14 @@ import axios from 'axios'
 
 let ENDPOINTS
 
+const maestroHost = 'http://localhost:9002'
 const inputterHost = 'http://localhost:9001'
 const host = 'http://localhost:7000'
 
 ENDPOINTS = {
   'LOAD_DATASET': inputterHost + '/dataset/load/openml',
+  'MINE_DATASET': maestroHost + '/maestro/target',
   'FETCH_UNITS': host + '/dataset/units',
-  'MINE_DATASET': host + '/dataset/mine',
   'FETCH_MINING_REPORT': host + '/mine/report',
   'SIMULATE': host + '/simulate',
   'RAW_DATASET': host + '/dataset/raw',

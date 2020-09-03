@@ -260,7 +260,9 @@ export default {
     },
     getDataset() {
       this.$api.loadDataset(this.datasetName, this.datasetId).then(() => {
-        setTimeout(() => this.$api.fetchUnitsReport().then((result) => {
+        this.mineDataset();
+        this.hide();
+        /*setTimeout(() => this.$api.fetchUnitsReport().then((result) => {
           this.units = result.data.units;
           this.features = result.data.features;
           this.setInitialBlacklist();
@@ -268,7 +270,7 @@ export default {
           this.isLoaded = true;
           this.getRawDataset();
           this.hide();
-        }), 1000);
+        }), 1000);*/
       });
     },
     setInitialBlacklist() {
@@ -280,13 +282,12 @@ export default {
     },
     mineDataset() {
       this.$api.mineDataset({
-        targetFeature: this.defaultClass,
-        featureBlacklist: Object.keys(this.blacklist),
-        groupCount: this.groupCounts,
-    }).finally(() => {
-        this.$modal.show('mining-status-modal');
-        this.getMiningConfig();
-    })
+        // feature: this.defaultClass,
+        feature: 'class'
+      }).finally(() => {
+          // this.$modal.show('mining-status-modal');
+          // this.getMiningConfig();
+      })
     },
   },
 }
