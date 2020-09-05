@@ -8,6 +8,7 @@ const inputterHost = 'http://localhost:9001'
 const host = 'http://localhost:7000'
 
 ENDPOINTS = {
+  'RESET_MAESTRO': maestroHost + '/brain/reset',
   'LOAD_DATASET': inputterHost + '/dataset/load/openml',
   'MINE_DATASET': maestroHost + '/maestro/target',
   'FETCH_UNITS': host + '/dataset/units',
@@ -27,6 +28,7 @@ ENDPOINTS = {
 }
 
 export default {
+  resetBrain: () => axios.post(ENDPOINTS['RESET_MAESTRO']),
   loadDataset: (datasetName, datasetId) => axios.post(ENDPOINTS['LOAD_DATASET'] + '/' + datasetId + `?name=${datasetName}`),
   fetchUnitsReport: () => axios.get(ENDPOINTS['FETCH_UNITS']),
   mineDataset: (args) => axios.post(ENDPOINTS['MINE_DATASET'], args, { headers: { 'Content-Type': 'application/json' } }),
