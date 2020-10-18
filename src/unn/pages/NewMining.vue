@@ -276,7 +276,10 @@ export default {
     mineDataset() {
       this.$api.mineDataset({
         // feature: this.defaultClass,
-        feature: 'id'
+        //feature: "Class@com.unn.openml.50"
+        //feature: "class@com.unn.openml.37"
+        //feature: "type@com.unn.openml.62"
+        feature: "class@com.unn.openml.31"
       }).finally(() => {
           // this.$modal.show('mining-status-modal');
           // this.getMiningConfig();
